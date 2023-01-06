@@ -1,0 +1,98 @@
+{% set version = '3.0.0' %}
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-dggridr
+  version: {{ version|replace("-", "_") }}
+
+source:
+  url: https://github.com/r-barnes/dggridR/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+build:
+  merge_build_host: True  # [win]
+  number: 0
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - {{ compiler('c') }}              # [not win]
+    - {{ compiler('m2w64_c') }}        # [win]
+    - {{ compiler('cxx') }}            # [not win]
+    - {{ compiler('m2w64_cxx') }}      # [win]
+    - {{ posix }}filesystem        # [win]
+    - {{ posix }}make
+    - {{ posix }}sed               # [win]
+    - {{ posix }}coreutils         # [win]
+    - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
+  host:
+    - r-base
+    - r-rcpp >=0.12.12
+    - r-dplyr >=0.4
+    - r-rgdal >=1.1
+    - r-rlang >=0.4
+    - r-sf >=1.0
+    - r-sp >=1.2
+    - r-ggplot2 >=2.1
+  run:
+    - r-base
+    - {{ native }}gcc-libs         # [win]
+    - r-rcpp >=0.12.12
+    - r-dplyr >=0.4
+    - r-rgdal >=1.1
+    - r-rlang >=0.4
+    - r-sf >=1.0
+    - r-sp >=1.2
+    - r-ggplot2 >=2.1
+
+test:
+  commands:
+    - $R -e "library('dggridR')"           # [not win]
+    - "\"%R%\" -e \"library('dggridR')\""  # [win]
+
+about:
+  home: https://github.com/r-barnes/dggridR/
+  license: AGPL-3.0-or-later
+  summary: Spatial analyses involving binning require that every bin have the same area, but
+    this is impossible using a rectangular grid laid over the Earth or over any projection
+    of the Earth. Discrete global grids use hexagons, triangles, and diamonds to overcome
+    this issue, overlaying the Earth with equally-sized bins. This package provides
+    utilities for working with discrete global grids, along with utilities to aid in
+    plotting such data.
+  license_family: AGPL
+  license_file:
+    - LICENSE.md
+
+extra:
+  recipe-maintainers:
+    - conda-forge/r
+    - marie59
+
+# Package: dggridR
+# Type: Package
+# Title: Discrete Global Grids
+# Version: 3.0.0
+# Date: 2022-03-17
+# Author: Richard Barnes [aut, cre], Kevin Sahr [cph, ctb], Gerald Evenden [cph], Angus Johnson [cph], Frank Warmerdam [cph], Even Rouault [cph], Lian Song [ctb]
+# Maintainer: Richard Barnes <rijard.barnes@gmail.com>
+# NeedsCompilation: yes
+# Depends: R (>= 3.4.0), rgdal (>= 1.1), ggplot2 (>= 2.1), dplyr (>= 0.4), sp (>= 1.2)
+# Suggests: knitr, rmarkdown, maps, mapproj, R.rsp, testthat
+# License: MIT + file LICENCE
+# Authors@R: c(person("Richard", "Barnes",    role = c("aut", "cre"), email = "rijard.barnes@gmail.com"), person("Kevin",   "Sahr",      role = c("cph", "ctb"), email = "sahrk@sou.edu"), person("Gerald",  "Evenden",   role = "cph"), person("Angus",   "Johnson",   role = "cph"), person("Frank",   "Warmerdam", role = "cph"), person("Even",    "Rouault",   role = "cph"), person("Lian",    "Song",      role = "ctb") )
+# Description: Spatial analyses involving binning require that every bin have the same area, but this is impossible using a rectangular grid laid over the Earth or over any projection of the Earth. Discrete global grids use hexagons, triangles, and diamonds to overcome this issue, overlaying the Earth with equally-sized bins. This package provides utilities for working with discrete global grids, along with utilities to aid in plotting such data.
+# URL: https://github.com/r-barnes/dggridR/
+# BugReports: https://github.com/r-barnes/dggridR/
+# Imports: Rcpp (>= 0.12.12), methods (>= 3.4.0)
+# LinkingTo: Rcpp
+# RcppModules: dgfuncs, gridgens, gridstats
+# RoxygenNote: 7.1.0
+# VignetteBuilder: knitr, R.rsp
+# SystemRequirements: C++11
+# Packaged: 2020-04-29 17:18:16 UTC; rick
+# Repository: CRAN
+# Date/Publication: 2020-04-29 17:50:02 UTC

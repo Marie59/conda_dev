@@ -1,0 +1,42 @@
+{% set name = "jobard" %}
+{% set version = "v1.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/jobard/jobard/-/archive/NOV-FE-1187-DT-115_{{ version }}/jobard-NOV-FE-1187-DT-115_{{ version }}.tar.gz
+  sha256: 63642ac9ae5aa5ed0662b7d6536d489ce536c006a831ff541c3adabccf427d59
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python
+    - poetry
+    - poetry-dynamic-versioning
+
+  run:
+    - python
+    - jobard-api
+    - jobard-client
+    - jobard-daemon
+    - jobard-remote-dask    
+    
+test:
+  imports:
+    - manual
+
+about:
+  home: https://gitlab.ifremer.fr/jobard/jobard
+  license: Apache-2.0
+  license_file: LICENSE.txt
+  summary: Job Array Management
+
+
+extra:
+  recipe-maintainers:
+    - marie59

@@ -1,0 +1,48 @@
+{% set name = "ifr-lib" %}
+{% set version = "2.3.2" %}
+
+package: 
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/ifremer-commons/python/ifr_lib/-/archive/v2.3.2/ifr_lib-{{ version }}.tar.gz
+  sha256: f03aa5c264b9729b01054f1a42eee2efd754f8b9bab92f6f5ecf0b737f7ecd0d
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python >=3.7
+    - poetry
+    - poetry-dynamic-versioning
+    
+  run:
+    - python >=3.7
+    - jinja2 >=2,<3
+    - dateparser >=0.7,<0.8
+    - colorlog >=4,<5
+    - ruamel.yaml >0.16,<0.17
+    - pathfinder
+    - requests
+    - pika
+    - lxml
+    - xmltodict
+    - zeep
+
+test:
+  imports:
+    - ifr_lib
+
+about:
+  home: https://gitlab.ifremer.fr/ifremer-commons/python/ifr_lib
+  license: Apache-2.0
+  license_file: LICENSE.md
+  summary: Utilities for developing python programs
+  
+extra:
+  recipe-maintainers:
+    - marie59

@@ -1,0 +1,42 @@
+{% set name = "felyxcontrib-metrics-workflow" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/felyx/felyxcontribs_metrics_workflow/-/archive/{{ version }}/felyxcontribs_metrics_workflow-{{ version }}.tar.gz
+  sha256: 3c983ddb75435e147c5f325146e25c6a8c839cc4360222897ccb265f2001e84e
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+  noarch: python
+
+requirements:
+  host:
+    - python >=3.8,<3.9
+    - poetry
+    - poetry-dynamic-versioning
+
+  run:
+    - python >=3.8,<3.9
+    - matplotlib >=3.5.0,<3.6
+    - pyresample >=1.16.0,<1.17
+    - felyx-processor
+    
+test:
+  imports:
+    - felyxcontribs_metrics_workflow
+
+
+about:
+  home: https://gitlab.ifremer.fr/felyx/felyxcontribs_metrics_workflow
+  license: Apache-2.0
+  license_file: LICENSE.txt
+  summary: felyx extensions for workflow metrics.
+
+extra:
+  recipe-maintainers:
+    - marie59

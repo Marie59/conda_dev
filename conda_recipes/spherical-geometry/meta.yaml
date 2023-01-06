@@ -1,0 +1,49 @@
+{% set name = "spherical-geometry" %}
+{% set version = "1.2.23" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/spherical_geometry-{{ version }}.tar.gz
+  sha256: a496276d34ab906039332f77498921f8385807d2574fa63353efb3dba145a9f6
+
+build:
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+  host:
+    - python
+    - setuptools-scm
+    - pip
+    - wheel
+    - numpy
+  run:
+    - python
+    - astropy >=5.0.4
+    - numpy
+
+test:
+  imports:
+    - spherical_geometry
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/spacetelescope/spherical_geometry
+  summary: Python based tools for spherical geometry
+  dev_url: https://github.com/spacetelescope/spherical_geometry/
+  license: BSD-1-Clause & BSD-3-Clause
+  license_file:
+    - libqd/COPYING
+    - licenses/LICENSE.rst
+
+extra:
+  recipe-maintainers:
+    - marie59

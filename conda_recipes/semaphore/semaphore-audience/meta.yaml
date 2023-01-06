@@ -1,0 +1,57 @@
+{% set name = "semaphore-audience" %}
+{% set version = "3.9.3" %}
+
+package: 
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/semaphore/semaphore-audience/-/archive/v{{ version }}/semaphore-audience-v{{ version }}.tar.gz
+  sha256: 4b43da4e34c0f4c6e85048869acac8e10b632f811f63e30bfe885bd0670470fc
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python >=3.7
+    - poetry
+    - poetry-dynamic-versioning
+    
+  run:
+    - python >=3.7
+    - pyyaml >=5.3
+    - geoip2 >=2.9
+    - python-dateutil >=2.6,<2.7
+    - simplejson >=3.16,<3.17
+    - pyspark >=2.4.1,<2.5
+    - psutil >=5.6,<5.7
+    - python-hdfs >=2.2,<2.3
+    - tzlocal >=2,<3
+    - elasticsearch >=7,<8
+    - semaphore-core >=2.2.0,<2.3
+    - cudatoolkit
+ 
+test:
+  source_files:
+    - tests
+  imports:
+    - semaphore_audience
+  requires:
+    - pytest >=6,<7
+    - pytest-cov >=2,<3
+    - testfixtures >=6,<7
+  commands:
+    - pytest --pyargs tests
+
+about:
+  home: https://gitlab.ifremer.fr/semaphore/semaphore-audience
+  license: Apache-2.0
+  license_file: LICENSE.md
+  summary: HTTP and FTP logs analysis
+  
+extra:
+  recipe-maintainers:
+    - marie59

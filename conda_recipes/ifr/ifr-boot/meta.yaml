@@ -1,0 +1,39 @@
+{% set name = "ifr-boot" %}
+{% set version = "2.0.4" %}
+
+package: 
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/ifremer-commons/python/ifr_boot/-/archive/v2.0.4/ifr_boot-{{ version }}.tar.gz
+  sha256: e04947cc9ac85f5e7134d5301a6bee573b009238959d102c0931dd2be3dbccde
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python >=3.7
+    - poetry
+    - poetry-dynamic-versioning
+    
+  run:
+    - python >=3.7
+    - ifr-lib
+ 
+test:
+  imports:
+    - ifr_boot
+
+about:
+  home: https://gitlab.ifremer.fr/ifremer-commons/python/ifr_boot
+  license: Apache-2.0
+  license_file: LICENSE.md
+  summary: This module provides a base for developing applications and jobs.
+  
+extra:
+  recipe-maintainers:
+    - marie59

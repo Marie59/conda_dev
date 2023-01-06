@@ -1,0 +1,40 @@
+{% set name = "semaphore-core" %}
+{% set version = "2.2.0" %}
+
+package: 
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/semaphore/semaphore_core/-/archive/2.2.0/semaphore_core-{{ version }}.tar.gz
+  sha256: ff9d69e3bdcdb74840648445b94e65cf5a1b9ff11165cbeb8ff7b362a16c17af
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python >=3.7
+    - poetry
+    - poetry-dynamic-versioning
+    
+  run:
+    - python >=3.7
+    - ifr-boot >=2
+    - markupsafe >=2.0.1,<2.2
+    
+test:
+  imports:
+    - semaphore_core
+
+about:
+  home: https://gitlab.ifremer.fr/semaphore/semaphore_core
+  license: Apache-2.0
+  license_file: LICENSE.md
+  summary: Semaphore projects core library
+  
+extra:
+  recipe-maintainers:
+    - marie59

@@ -1,0 +1,39 @@
+{% set name = "felyxcontribs-metrics-ghrsst" %}
+{% set version = "2.4.2" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/felyx/felyxcontribs_metrics_ghrsst/-/archive/1.0.0/felyxcontribs_metrics_ghrsst-{{ version }}.tar.gz
+  sha256: ebdc9682018e5ce80d5498c61ac7664b1304efc79daa14ce4eec2be2bce72c37
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+  noarch: python
+
+requirements:
+  host:
+    - python >=3.8,<3.9
+    - poetry
+    - poetry-dynamic-versioning
+
+  run:
+    - python >=3.8,<3.9
+    - virtualenv >=20.13.3,<20.14
+    
+test:
+  imports:
+    - felyxcontribs_metrics_ghrsst
+
+about:
+  home: https://gitlab.ifremer.fr/felyx/felyxcontribs_metrics_ghrsst
+  license: Apache-2.0
+  license_file: LICENSE.txt
+  summary: felyx extensions for ghrsst metrics.
+
+extra:
+  recipe-maintainers:
+    - marie59

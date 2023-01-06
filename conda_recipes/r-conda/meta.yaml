@@ -1,0 +1,46 @@
+{% set version = "" %}
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
+
+package:
+  name: r-
+  version: {{ version|replace("-", "_") }}
+
+source:
+  url: #{{ version }}
+  sha256: #utiliser dans terminal curl -sL https://github.com/username/reponame/archive/vX.X.X.tar.gz | openssl sha256
+
+build:
+  merge_build_host: true  # [win]
+  number: 0
+  noarch: generic
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
+  host:
+    - r-base
+  run:
+    - r-base
+
+test:
+  commands:
+    - $R -e "library('nompackage')"           # [not win]
+    - "\"%R%\" -e \"library('nompackage')\""  # [win]
+
+about:
+  home: 
+  license: 
+  summary: 
+  license_family: 
+  license_file:
+    - 
+
+extra:
+  recipe-maintainers:
+    - conda-forge/r
+    - 

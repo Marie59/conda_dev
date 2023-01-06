@@ -1,0 +1,38 @@
+{% set name = "felyxcontribs-metrics-base" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/felyx/felyxcontribs_metrics_base/-/archive/1.0.0/felyxcontribs_metrics_base-{{ version }}.tar.gz
+  sha256: b4bdaa71388483e49d66061452f68a4f866d39925f8dc1ad69d7efdff8701448
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+requirements:
+  host:
+    - python
+    - poetry
+    - poetry-dynamic-versioning
+
+  run:
+    - python
+    - virtualenv >=20.13.3,<20.14
+    
+test:
+  imports:
+    - felyxcontribs_metrics_base
+
+about:
+  home: https://gitlab.ifremer.fr/felyx/felyxcontribs_metrics_base
+  license: Apache-2.0
+  license_file: LICENSE.txt
+  summary: felyx is a free software solution, written in python, whose aim is to provide Earth Observation data producers and users with an open-source, flexible and reusable tool to allow scientific analysis and performance monitoring of scientific observation data through subsetting over specific areas or matching up with in situ measurements.
+
+extra:
+  recipe-maintainers:
+    - marie59

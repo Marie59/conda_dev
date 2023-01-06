@@ -1,0 +1,48 @@
+{% set name = "felyxcontribs-report" %}
+{% set version = "1.1.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.ifremer.fr/felyx/felyx_report/-/archive/1.1.0/felyx_report-{{ version }}.tar.gz
+  sha256: 48e4e49a7b2cd2dc92ae0b5bc1b5e8266c39cb6335c28594bd5b1593b866e84f
+
+build:
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+requirements:
+  host:
+    - python
+    - poetry
+    - poetry-dynamic-versioning
+
+  run:
+    - python
+    - elasticsearch >=7.17.0,<7.18
+    - pyarrow >=7.0.0,<8.0
+    - pydantic >=1.9.0,<2.0
+    - numpy >=1.22.2,<1.23
+    - pandas >=1.4.1,<1.5
+    - pyyaml >=6.0,<7.0
+    - shapely >=1.8.0,<1.9
+    - grafana-client >=2.1.0
+    - xarray >=0.19,<1.0
+    - jinja2 >=3.0.3,<3.1
+    - netcdf4 >=1.5.4,<1.6
+    
+test:
+  imports:
+    - felyx_report
+    
+about:
+  home: https://gitlab.ifremer.fr/felyx/felyx_report
+  license: Apache-2.0
+  license_file: LICENSE.txt
+  summary: Felyx report.
+
+extra:
+  recipe-maintainers:
+    - marie59

@@ -1,0 +1,40 @@
+{% set name = "pathfinder" %}
+{% set version = "0.6.2" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pathfinder-{{ version }}.tar.gz
+  sha256: 85b8eb1d8a92b6b8409f77717531444815246b292eda06d5d4676b8e7752d179
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+
+test:
+  imports:
+    - pathfinder
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/jkeyes/pathfinder
+  summary: pathfinder – a simpler os.walk
+  license: MIT
+  license_file: LICENSE.txt
+
+extra:
+  recipe-maintainers:
+    - marie59
